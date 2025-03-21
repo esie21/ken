@@ -1,0 +1,43 @@
+CREATE TABLE participants_name (
+    -> id INT AUTO_INCREMENT PRIMARY KEY,
+    -> first_name VARCHAR(50) NOT NULL,
+    -> last_name VARCHAR(50) NOT NULL);
+
+
+CREATE TABLE squid_game (
+    -> id INT AUTO_INCREMENT PRIMARY KEY,
+    -> name VARCHAR(100) NOT NULL,
+    -> score INT NOT NULL,
+    -> date_started DATETIME NOT NULL,
+    -> date_ended DATETIME NOT NULL,
+    -> duration VARCHAR(50) NOT NULL);
+
+CREATE TABLE computer_parts (
+    -> id INT AUTO_INCREMENT PRIMARY KEY,
+    -> name_parts VARCHAR(255) NOT NULL,
+    -> image_parts VARCHAR(255) NOT NULL);
+
+
+
+MariaDB [multiple_choice_game]> DESC squid_game;
++--------------+--------------+------+-----+---------+----------------+
+| Field        | Type         | Null | Key | Default | Extra          |
++--------------+--------------+------+-----+---------+----------------+
+| id           | int(11)      | NO   | PRI | NULL    | auto_increment |
+| name         | varchar(100) | NO   |     | NULL    |                |
+| score        | int(11)      | NO   |     | NULL    |                |
+| date_started | datetime     | NO   |     | NULL    |                |
+| date_ended   | datetime     | YES  |     | NULL    |                |
+| duration     | int(11)      | YES  |     | NULL    |                |
++--------------+--------------+------+-----+---------+----------------+
+6 rows in set (0.083 sec)
+
+MariaDB [multiple_choice_game]> DESC computer_parts;
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
+| name_parts  | varchar(255) | NO   |     | NULL    |                |
+| image_parts | varchar(255) | NO   |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+3 rows in set (0.071 sec)

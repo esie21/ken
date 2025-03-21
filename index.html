@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess game</title>
+    <style>
+       body {
+  background-image: url('bgpic.avif');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #fffae5;
+}
+
+.container {
+  background-color: #fffde7;
+  border-radius: 16px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+button {
+  background-color: #ffcc00;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #e69500;
+}
+
+.message {
+  color: #d9534f;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: #fffde7;
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+  max-height: 80vh;
+  top: 1%;
+  overflow-y: auto;
+  text-align: center;
+}
+
+.choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.choices button {
+  flex: 1 1 45%;
+  padding: 10px;
+  background-color: #4caf50;
+}
+
+.choices button:hover {
+  background-color: #388e3c;
+}
+
+.close {
+  color: #d9534f;
+  float: right;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.modal-content3 {
+  background-color: #fffde7;
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+  max-height: 60vh;
+  top: 1%;
+  overflow-y: auto;
+  text-align: center;
+}
+
+.modal-content3 tr {
+  background-color: #ffcc00;
+}
+
+.modal-content3 th {
+  width: 200px;
+  border-radius: 5px;
+  background-color: #e69500;
+}
+
+img {
+  width: 200px;
+  height: 200px;
+  margin-top: 10px;
+}
+
+.top_players {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 15vh;
+}
+
+.top_players button {
+  margin-right: 30px;
+  width: 100px;
+  background-color: #ffcc00;
+}
+
+.top_players button:hover {
+  background-color: #e69500;
+}
+
+.top_players h1 {
+  color: #4caf50;
+  text-shadow: 2px 2px 5px black;
+  margin-left: 30px;
+  font-size: 40px;
+}
+
+.paragraph_text {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 70%;
+}
+
+.paragraph_text p {
+  color: #4caf50;
+  margin-left: 30px;
+  font-family: "Lucida Console", "Courier New", monospace;
+  font-size: 20px;
+  text-shadow: 2px 2px 5px black;
+}
+
+.paragraph_text h3 {
+  margin-left: 30px;
+  color: #e69500;
+  font-size: 25px;
+  text-shadow: 2px 2px 5px black;
+}
+
+.container-holder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.para_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+  width: 100%;
+}
+
+p {
+  color: #555;
+  font-size: 16px;
+}
+
+h2 {
+  color: #e69500;
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+        
+     </style>
+</head>
+<body>
+    <div class="top_players">
+        <h1>Simple Guess Game</h1>
+        <button id="topPlayersBtn">Top Players</button>
+    </div>
+    <div class="para_container">
+        <div class="container-holder">
+            <div class="container">
+                <h2 style="color: blue;  font-size: 20px;">CREATE NAME</h2>
+                <input type="text" id="player_name" placeholder="Enter your name" required>
+                <h4  style="color: blue; font-size: 15px;">PRESS THE START GAME BUTTON</h4>
+                <button onclick="startGame()">Start Game</button>
+                <p class="message" id="message"></p>
+                <br>
+                <br>
+                
+                <p style="font-size: 15px;"> Enjoy Playing</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Structure -->
+    <div id="gameModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Game Started!</h3>
+            <p class="message" id="messages"></p>
+            <img id="imageHolder" alt="Game Image">
+            <br>
+            <div class="choices">
+                <button onclick="checkAnswer(this)"></button>
+                <button onclick="checkAnswer(this)"></button>
+                <button onclick="checkAnswer(this)"></button>
+                <button onclick="checkAnswer(this)"></button>
+            </div>
+        </div>
+    </div>
+Q
+
+    <!-- Game Over Modal -->
+    <div id="gameOverModal" class="modal">
+        <div class="modal-content">
+            <h2>Game Over</h2>
+            <p id="yourScore"></p>
+            <br>
+            <button id="playAgainBtn">Play Again</button>
+        </div>
+    </div>
+
+    <div id="topPlayersModal" class="modal">
+        <div class="modal-content3">
+            <span class="close">&times;</span>
+            <h2>All Time HighScore</h2>
+            <table>
+                <thead>
+                    <tr class="nsd">
+                        <th>Date Played</th>
+                        <th>Name</th>
+                        <th>Score</th>
+                        <th>Duration</th>
+                    </tr>
+                </thead>
+                <tbody id="playersList"></tbody>
+            </table>
+        </div>
+    </div>
+
+<script>
+
+let correctAnswer = "";
+let shownImages = [];
+let maxRounds = 10;
+let currentRound = 0;
+let gameId = null;
+let totalScore = 0;
+
+function startGame() {
+    let playerName = document.getElementById("player_name").value;
+    if (playerName.trim() === "") {
+        document.getElementById("message").innerHTML = "Please enter your name!";
+        document.getElementById("message").style.color = "red";
+        return;
+    }
+
+    let formData = new FormData();
+    formData.append("name", playerName);
+
+    fetch("save_squid_game.php", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.json()) // Expect JSON response
+    .then(data => {
+        if (data.success) {
+            document.getElementById("message").innerHTML = data.message;
+            gameId = data.game_id;
+            document.getElementById("message").style.color = "green";
+            loadNextQuestion();
+        } else {
+            document.getElementById("message").innerHTML = "Error starting game!";
+            document.getElementById("message").style.color = "red";
+        }
+    })
+    .catch(error => {
+        document.getElementById("message").innerHTML = "Error saving data!";
+        document.getElementById("message").style.color = "red";
+    });
+}
+
+function loadNextQuestion() {
+    if (currentRound >= maxRounds) {
+        endGame();
+        return;
+    }
+
+    fetch("get_random_question.php")
+        .then(response => response.json())
+        .then(questionData => {
+            if (shownImages.includes(questionData.image)) {
+                loadNextQuestion(); // Get another question if it's a duplicate
+                return;
+            }
+
+            correctAnswer = questionData.correct;
+            document.getElementById("imageHolder").src = questionData.image;
+            shownImages.push(questionData.image);
+            currentRound++;
+
+            let buttons = document.querySelectorAll(".choices button");
+            buttons.forEach((btn, index) => {
+                btn.innerText = questionData.choices[index];
+            });
+
+            document.getElementById("gameModal").style.display = "block";
+        })
+        .catch(error => {
+            console.error("Error fetching question:", error);
+        });
+}
+
+function checkAnswer(button) {
+    let playerName = document.getElementById("player_name").value;
+    
+    if (button.innerText === correctAnswer) {
+        document.getElementById("messages").innerHTML = `Correct`;
+        document.getElementById("messages").style.color = "green";
+        
+        totalScore += 1;
+
+        let formData = new FormData();
+        formData.append("name", playerName);
+        formData.append("score", 1);
+
+        
+        fetch("update_score.php", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data.message);
+        })
+        .catch(error => {
+            console.error("Error updating score:", error);
+        });
+    } else {
+        document.getElementById("messages").innerHTML = `Wrong! The correct answer is: ${correctAnswer}`;
+        document.getElementById("messages").style.color = "red";
+    }
+
+    loadNextQuestion(); // Load next question
+}
+
+function endGame() {
+    let endTime = new Date();
+    
+    let formData = new FormData();
+    formData.append("game_id", gameId);
+    formData.append("date_ended", endTime.toISOString().slice(0, 19).replace("T", " "));
+
+    fetch("end_game.php", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.text())
+    .then(data => {
+        document.getElementById("message").innerHTML = `Game Over! Your score: ${totalScore}`;
+        document.getElementById("gameModal").style.display = "none";
+        document.getElementById("gameOverModal").style.display = "block";
+        document.getElementById("yourScore").innerHTML = `Score: ${totalScore}`;
+        document.getElementById("message").style.color = "green";
+    })
+    .catch(error => {
+        console.error("Error updating game data:", error);
+    });
+}
+
+document.getElementById("playAgainBtn").addEventListener("click", function() {
+    location.reload();
+});
+
+// Close Modal
+document.querySelector(".close").addEventListener("click", function() {
+    document.getElementById("gameModal").style.display = "none";
+});
+
+// Close modal when clicking outside
+window.addEventListener("click", function(event) {
+    let modal = document.getElementById("gameModal");
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
+});
+
+document.getElementById("topPlayersBtn").addEventListener("click", function() {
+    fetch("process_top_players.php")
+    .then(response => response.json())
+    .then(data => {
+        let tbody = document.getElementById("playersList");
+
+        tbody.innerHTML = "";
+        data.forEach(player => {
+            let dateOnly = new Date(player.date_started).toLocaleDateString();
+            let row = `<tr>
+                        <td>${dateOnly}</td>
+                        <td>${player.name}</td>
+                        <td>${player.score}</td>
+                        <td>${player.duration} sec</td>
+                      </tr>`;
+            tbody.innerHTML += row;
+        });
+
+        document.getElementById("topPlayersModal").style.display = "block";
+    });
+});
+
+// Close modal for top players
+document.querySelector("#topPlayersModal .close").addEventListener("click", function() {
+    document.getElementById("topPlayersModal").style.display = "none";
+});
+ 
+</script>
+
+</body>
+</html>
